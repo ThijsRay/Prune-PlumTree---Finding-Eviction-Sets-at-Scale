@@ -1,3 +1,4 @@
+#include <err.h>
 #define _GNU_SOURCE
 
 #include <math.h>
@@ -389,7 +390,7 @@ void menu() {
     S = SetsLLC / (PageSize / BlockSize);
     break;
   default:
-    printf("Error! wrong operation selected\n");
+    errx(EXIT_FAILURE, "Error! wrong operation selected\n");
   }
 }
 
