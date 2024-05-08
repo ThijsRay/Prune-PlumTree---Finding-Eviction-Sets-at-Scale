@@ -46,12 +46,15 @@ static inline int memaccess(void *v) {
 
 static inline uint32_t memaccesstime(void *v) {
   uint32_t rv;
+
   __asm__ volatile("mfence\n"
                    "lfence\n"
-                   "rdtscp\n"
+                   "rdtsc\n"
+                   "lfence\n"
                    "mov %%eax, %%esi\n"
                    "mov (%1), %%eax\n"
-                   "rdtscp\n"
+                   "lfence\n"
+                   "rdtsc\n"
                    "sub %%esi, %%eax\n"
                    : "=&a"(rv)
                    : "r"(v)
