@@ -1,4 +1,10 @@
 #define _GNU_SOURCE 
+
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+#include <stdio.h>
+
 #include "utils.h"
 
 extern void *CandAddressesPool, *RepAddressesPool;

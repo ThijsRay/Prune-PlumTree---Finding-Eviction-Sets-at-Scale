@@ -1,11 +1,5 @@
-#ifndef MAIN_H
-#define MAIN_H
+#pragma once
 
-#include <stdio.h>
-#include <math.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <time.h>
 #include <unistd.h>
 #include <sys/mman.h>
 
@@ -58,5 +52,3 @@ Probe_Args probe(void*p, int N_c, char* MissHit);
 void External_Voting(void*p, char* MissHit,int direction,int size);
 Struct BuildTrees(Struct addresses);
 //==========================================================================
-
-#endif

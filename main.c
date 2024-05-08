@@ -1,4 +1,10 @@
 #define _GNU_SOURCE
+
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+#include <time.h>
+
 #include "main.h"
 #include "utils.h"
 
@@ -156,7 +162,7 @@ int reduction_iterative(Struct addresses) {
 		// Second stop condition
         if (cur.N_R == 1) {
             // Perfect eviction set of size W
-            if ((cur.N_c == W)) {
+            if (cur.N_c == W) {
 				if(checkEviction(cur.candidates, cur.Representatives, cur.candidates)){
 					collectEvictionSet(cur);
 					result++;

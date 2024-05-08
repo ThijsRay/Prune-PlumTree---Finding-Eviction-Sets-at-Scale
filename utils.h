@@ -1,8 +1,11 @@
+#pragma once
+
 #define _GNU_SOURCE 
-#ifndef UTILS_H
-#define UTILS_H
-#include "main.h"
+
+#include <stdint.h>
 #include <sched.h>
+
+#include "main.h"
 //===================================================
 #define LNEXT(t)( * (void ** )(t))
 #define OFFSET(p, o)((void * )((uintptr_t)(p) + (o)))
@@ -14,24 +17,24 @@ unsigned long long my_rand (unsigned long long limit);
 double nCr(int n, int r);
 float binomialProbability(int n, int k, float p);
 float probabilityToBeEvictionSet(float p,int N);
-void gaurd();
+void gaurd(void);
 void flush(void *head);
 void collectReps(void* head);
 void collectCands(void* head);
-void set_cpu();
+void set_cpu(void);
 void mergeLists(void* first, void* sec);
 void* getPointer(void* head,int position);
 void memoryaccess(void* address,int direction);
 void Prune_memoryaccess(void* srart,void* stop);
-Struct logsGarbege();	
-int CheckResult();
+Struct logsGarbege(void);	
+int CheckResult(void);
 Struct InitData(int N_c, int N_R);
 void collectEvictionSet(Struct addresses);
 int checkEviction(void* head,void* x,void* pp);
-void printMapping();
+void printMapping(void);
 Probe_Args remove_congrunt_addresses(void *head, int size);
-void* getMappingHead();
-Struct prepareForMapping();
+void* getMappingHead(void);
+Struct prepareForMapping(void);
 void statistics(int NumExp,int AVGmappingSize, double AVGtime);
 //==========================================================================
 
@@ -74,5 +77,3 @@ static inline uint64_t rdtscp64() {
 static inline void mfence() {
   __asm__ volatile("mfence");
 }
-
-#endif
