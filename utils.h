@@ -26,15 +26,15 @@ void mergeLists(void *first, void *sec);
 void *getPointer(void *head, int position);
 void memoryaccess(void *address, int direction);
 void Prune_memoryaccess(void *srart, void *stop);
-Struct logsGarbege(void);
+State logsGarbege(void);
 int CheckResult(void);
-Struct InitData(int N_c, int N_R);
-void collectEvictionSet(Struct addresses);
+State InitData(int N_c, int N_R);
+void collectEvictionSet(State addresses);
 int checkEviction(void *head, void *x, void *pp);
 void printMapping(void);
 Probe_Args remove_congrunt_addresses(void *head, int size);
 void *getMappingHead(void);
-Struct prepareForMapping(void);
+State prepareForMapping(void);
 void statistics(int NumExp, int AVGmappingSize, double AVGtime);
 //==========================================================================
 

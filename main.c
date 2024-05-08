@@ -105,8 +105,8 @@ void ProbeInfo(void *head, void *Rhead, void *tail, void *Rtail, char *MissHit, 
   External_Voting(tail, MissHit, !FW, size);
 }
 
-Struct Probe(Struct addresses) {
-  Struct ret;
+State Probe(State addresses) {
+  State ret;
   Probe_Args probe_args;
   void *head, *Rhead, *tail, *Rtail;
   char *MissHit = (char *)calloc(addresses.N_c, sizeof(char));
@@ -136,10 +136,10 @@ Struct Probe(Struct addresses) {
   return ret;
 }
 
-int reduction_iterative(Struct addresses) {
-  Struct cur, stack[100];
+int reduction_iterative(State addresses) {
+  State cur, stack[100];
   int top = -1;
-  Struct tmp, First, Second;
+  State tmp, First, Second;
   int oldN_R, i;
   void *Rhead, *Rtail, *middleHead;
   int cnt = 0;
@@ -269,7 +269,7 @@ void PruneInfo(void *head, void *tail, char *MissHit, int NumExp, int size, void
   }
 }
 
-Struct Prune(Struct addresses) {
+State Prune(State addresses) {
   Probe_Args probe_args;
   void *head, *tail;
   char *MissHit1;
@@ -312,7 +312,7 @@ Struct Prune(Struct addresses) {
   return addresses;
 }
 
-Struct BuildTrees(Struct addresses) {
+State BuildTrees(State addresses) {
   int prev = 0, iter = 0, improveFactor;
   static int NumberOfEvictionSetsFound = 0;
   if (MappingIdx == 0) {
@@ -339,7 +339,7 @@ Struct BuildTrees(Struct addresses) {
   return addresses;
 }
 
-Struct map_LLC(float LLC_Cover, Struct addresses) {
+State map_LLC(float LLC_Cover, State addresses) {
   int N_c = addresses.N_c, N_R = addresses.N_R, iter = 0;
   Probe_Args tmp;
   while (((float)MappingIdx / S) * 100 < LLC_Cover) {
@@ -394,7 +394,7 @@ void menu() {
 }
 
 int main() {
-  Struct addresses, tmp;
+  State addresses, tmp;
   int NumExp = 1, AVGmappingSize = 0, WarmUp = 1;
   float LLC_Cover = 99;
   double AVGtime = 0;

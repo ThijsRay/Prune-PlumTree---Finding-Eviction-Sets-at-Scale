@@ -184,8 +184,8 @@ void Prune_memoryaccess(void *start, void *stop) {
   gaurd();
 }
 
-Struct logsGarbege() { //FILE *file
-  Struct addresses;
+State logsGarbege() { //FILE *file
+  State addresses;
   for (int i = 0; i < GarbageCandsIDX; i++) {
     LNEXT(GarbageCands[i]) = GarbageCands[(i + 1) % GarbageCandsIDX];
     LNEXT(OFFSET(GarbageCands[i], sizeof(void *))) =
@@ -226,9 +226,9 @@ int CheckResult() {
   return cnt;
 }
 
-Struct InitData(int N_c, int N_R) {
+State InitData(int N_c, int N_R) {
   //Init data structure
-  Struct addresses;
+  State addresses;
   void **candidates = (void **)malloc(N_c * sizeof(void *));
   void **Representatives = (void **)malloc(N_R * sizeof(void *));
   addresses.N_c = N_c;
@@ -259,7 +259,7 @@ Struct InitData(int N_c, int N_R) {
   return addresses;
 }
 
-void collectEvictionSet(Struct addresses) {
+void collectEvictionSet(State addresses) {
   void *p;
   Mapping[MappingIdx] = (void **)malloc((addresses.N_c + addresses.N_R) * sizeof(void *));
   EvictionSetSize[MappingIdx] = addresses.N_c + addresses.N_R;
@@ -342,8 +342,8 @@ Probe_Args remove_congrunt_addresses(void *head, int size) {
   return probe_args;
 }
 
-Struct prepareForMapping() {
-  Struct addresses;
+State prepareForMapping() {
+  State addresses;
   srand(time(NULL));
   float p = 1 / (float)S;
   int N_c = S;

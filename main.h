@@ -33,18 +33,18 @@ typedef struct my_list {
   int N_R;
   void *SeconedHalf;
   int N_Sec;
-} Struct;
+} State;
 
 //======================Prototypes definitions===========================
 void Prime(void *address, int direction);
-Struct Probe(Struct addresses);
-Struct map_LLC(float LLC_Cover, Struct addresses);
+State Probe(State addresses);
+State map_LLC(float LLC_Cover, State addresses);
 void ProbeInfo(void *head, void *Rhead, void *tail, void *Rtail, char *MissHit, int size);
-Struct Prune(Struct addresses);
+State Prune(State addresses);
 void PruneInfo(void *head, void *tail, char *MissHit, int NumExp, int size, void *mapping_head);
 void menu();
-int reduction_iterative(Struct addresses);
+int reduction_iterative(State addresses);
 Probe_Args probe(void *p, int N_c, char *MissHit);
 void External_Voting(void *p, char *MissHit, int direction, int size);
-Struct BuildTrees(Struct addresses);
+State BuildTrees(State addresses);
 //==========================================================================
