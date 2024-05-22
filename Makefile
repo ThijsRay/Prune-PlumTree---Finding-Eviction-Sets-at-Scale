@@ -8,7 +8,10 @@ OBJECTS = $(SOURCES:.c=.o)
 
 .PHONY: all clean
 
-all: $(TARGET)
+all: $(TARGET) pruneplumtree.o
+
+pruneplumtree.o: plumtree.o utils.o
+	ld -r $^ -o $@
 
 $(TARGET): $(OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
@@ -17,5 +20,5 @@ $(TARGET): $(OBJECTS)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -f $(OBJECTS) $(TARGET)
+	rm -f $(OBJECTS) $(TARGET) pruneplumtree.o
 
