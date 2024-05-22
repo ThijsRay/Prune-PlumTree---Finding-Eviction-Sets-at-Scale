@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "utils.h"
+#include "plumtree_utils.h"
 
 extern void *CandAddressesPool, *RepAddressesPool;
 extern void **GarbageReps, **GarbageCands;

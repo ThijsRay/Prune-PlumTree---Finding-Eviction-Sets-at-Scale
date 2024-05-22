@@ -7,7 +7,7 @@
 #include <time.h>
 
 #include "plumtree.h"
-#include "utils.h"
+#include "plumtree_utils.h"
 
 //Global Variabels.
 void *CandAddressesPool, *RepAddressesPool, *PruneGarbage;
@@ -427,15 +427,19 @@ int plumtree_main() {
       printMapping();
       return 0;
     } else {
-      free(Mapping);
-      free(EvictionSetSize);
-      free(GarbageCands);
-      free(GarbageReps);
-      munmap(CandAddressesPool, tmp.N_c * Stride);
-      munmap(RepAddressesPool, tmp.N_R * Stride);
+      plumtree_free(tmp);
     }
   }
 
   statistics(NumExp, AVGmappingSize, AVGtime);
   return 0;
+}
+
+void plumtree_free(State tmp) {
+  free(Mapping);
+  free(EvictionSetSize);
+  free(GarbageCands);
+  free(GarbageReps);
+  munmap(CandAddressesPool, tmp.N_c * Stride);
+  munmap(RepAddressesPool, tmp.N_R * Stride);
 }

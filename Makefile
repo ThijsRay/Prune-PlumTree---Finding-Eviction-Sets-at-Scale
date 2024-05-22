@@ -10,7 +10,7 @@ OBJECTS = $(SOURCES:.c=.o)
 
 all: $(TARGET) pruneplumtree.o
 
-pruneplumtree.o: plumtree.o utils.o
+pruneplumtree.o: plumtree.o plumtree_utils.o
 	ld -r $^ -o $@
 
 $(TARGET): $(OBJECTS)
