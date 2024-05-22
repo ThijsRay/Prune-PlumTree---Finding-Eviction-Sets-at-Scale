@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "main.h"
+#include "plumtree.h"
 #include "utils.h"
 
 //Global Variabels.
@@ -394,7 +394,7 @@ void menu() {
   }
 }
 
-int main() {
+int plumtree_main() {
   State addresses, tmp;
   int NumExp = 1, AVGmappingSize = 0, WarmUp = 1;
   float LLC_Cover = 99;
@@ -423,7 +423,7 @@ int main() {
     printf("CheckResult finished with %d mistakes and the mapping took %f seconds.\n", CheckResult(),
            (double)start_time / CLOCKS_PER_SEC);
 
-    if (i > WarmUp - 1) {
+    if (i == NumExp + WarmUp - 1) {
       printMapping();
       return 0;
     } else {
