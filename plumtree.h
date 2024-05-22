@@ -47,4 +47,5 @@ int reduction_iterative(State addresses);
 Probe_Args probe(void *p, int N_c, char *MissHit);
 void External_Voting(void *p, char *MissHit, int direction, int size);
 State BuildTrees(State addresses);
+int plumtree_main(void);
 //==========================================================================
