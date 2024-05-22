@@ -359,10 +359,12 @@ State prepareForMapping() {
   MappingIdx = 0;
 
   //Collect pool of addresses
-  CandAddressesPool = mmap(NULL, N_c * Stride, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, 0,
-                           0); //Maybe use (void*)(intptr_t)rand() instead of NULL
-  RepAddressesPool = mmap(NULL, N_R * Stride, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, 0,
-                          0); //Maybe use (void*)(intptr_t)rand() instead of NULL
+  CandAddressesPool =
+      mmap(NULL, addresses.N_c * Stride, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, 0,
+           0); //Maybe use (void*)(intptr_t)rand() instead of NULL
+  RepAddressesPool =
+      mmap(NULL, addresses.N_R * Stride, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, 0,
+           0); //Maybe use (void*)(intptr_t)rand() instead of NULL
   addresses = InitData(N_c, N_R);
 
   GarbageCands = (void **)malloc(addresses.N_c * sizeof(void *));

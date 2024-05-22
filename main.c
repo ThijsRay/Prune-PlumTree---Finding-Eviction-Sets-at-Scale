@@ -1,5 +1,5 @@
-#include <err.h>
 #define _GNU_SOURCE
+#include <err.h>
 
 #include <math.h>
 #include <stdio.h>
@@ -423,12 +423,17 @@ int main() {
     printf("CheckResult finished with %d mistakes and the mapping took %f seconds.\n", CheckResult(),
            (double)start_time / CLOCKS_PER_SEC);
 
-    free(Mapping);
-    free(EvictionSetSize);
-    free(GarbageCands);
-    free(GarbageReps);
-    munmap(CandAddressesPool, tmp.N_c * Stride);
-    munmap(RepAddressesPool, tmp.N_R * Stride);
+    if (i > WarmUp - 1) {
+      printMapping();
+      return 0;
+    } else {
+      free(Mapping);
+      free(EvictionSetSize);
+      free(GarbageCands);
+      free(GarbageReps);
+      munmap(CandAddressesPool, tmp.N_c * Stride);
+      munmap(RepAddressesPool, tmp.N_R * Stride);
+    }
   }
 
   statistics(NumExp, AVGmappingSize, AVGtime);
