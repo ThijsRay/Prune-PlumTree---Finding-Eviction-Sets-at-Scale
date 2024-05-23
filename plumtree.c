@@ -25,7 +25,7 @@ void Prime(void *address, int direction) {
   memoryaccess(address, direction);
   //memoryaccess(address,direction);
   //memoryaccess(address,direction);
-  gaurd();
+  guard();
 }
 
 Probe_Args probe(void *p, int N_c, char *MissHit) {
@@ -46,9 +46,9 @@ Probe_Args probe(void *p, int N_c, char *MissHit) {
     cnt--;
   } while (cnt);
 
-  for (int i = 0; i < removed; i++) {
-    LNEXT(removed_addresses[i]) = removed_addresses[(i + 1) % removed];
-    LNEXT(OFFSET(removed_addresses[i], sizeof(void *))) = removed_addresses[(i + removed - 1) % removed];
+  for (int j = 0; j < removed; j++) {
+    LNEXT(removed_addresses[j]) = removed_addresses[(j + 1) % removed];
+    LNEXT(OFFSET(removed_addresses[j], sizeof(void *))) = removed_addresses[(j + removed - 1) % removed];
   }
 
   ret.first = head;
@@ -367,7 +367,7 @@ State map_LLC(float LLC_Cover, State addresses) {
   return addresses;
 }
 
-void menu() {
+void menu(void) {
   int option;
   printf("===========================================================================\n");
   printf("Choose one of the following options:\n");
@@ -394,7 +394,7 @@ void menu() {
   }
 }
 
-int plumtree_main() {
+int plumtree_main(void) {
   State addresses, tmp;
   int NumExp = 1, AVGmappingSize = 0, WarmUp = 1;
   float LLC_Cover = 99;

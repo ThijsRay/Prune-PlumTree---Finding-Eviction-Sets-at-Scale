@@ -46,7 +46,7 @@ float probabilityToBeEvictionSet(float p, int N) {
   return 1 - dist;
 }
 
-void gaurd() {
+void guard(void) {
   __asm__ volatile("mfence\n"
                    "lfence\n");
 }
@@ -57,16 +57,16 @@ void flush(void *head) {
   do {
     pp = p;
     p = LNEXT(p);
-    gaurd();
+    guard();
     clflush(pp);
-    gaurd();
+    guard();
   } while (p != (void *)head);
-  gaurd();
+  guard();
   clflush(p);
-  gaurd();
+  guard();
 }
 
-void set_cpu() {
+void set_cpu(void) {
   cpu_set_t set;
   CPU_ZERO(&set);   // clear cpu mask
   CPU_SET(4, &set); // set cpu 0
@@ -108,13 +108,13 @@ void *getPointer(void *head, int position) {
   int cnt = 0;
   p = head;
   do {
-    gaurd();
+    guard();
     p = LNEXT(p);
     cnt++;
     if (cnt == position)
       return p;
   } while (p != (void *)head);
-  gaurd();
+  guard();
   return NULL;
 }
 
@@ -123,7 +123,7 @@ void memoryaccess(void *address, int direction) {
   p = address;
   pp = p;
   do {
-    gaurd();
+    guard();
     if (direction)
       p = LNEXT(p);
     else
@@ -178,13 +178,13 @@ void Prune_memoryaccess(void *start, void *stop) {
   void *p;
   p = start;
   do {
-    gaurd();
+    guard();
     p = LNEXT(p);
   } while (p != (void *)stop);
-  gaurd();
+  guard();
 }
 
-State logsGarbege() { //FILE *file
+State logsGarbege(void) { //FILE *file
   State addresses;
   for (int i = 0; i < GarbageCandsIDX; i++) {
     LNEXT(GarbageCands[i]) = GarbageCands[(i + 1) % GarbageCandsIDX];
@@ -207,7 +207,7 @@ State logsGarbege() { //FILE *file
   return addresses;
 }
 
-int CheckResult() {
+int CheckResult(void) {
   void *x, *head;
   int cnt = 0;
   for (int i = 0; i < MappingIdx; i++) {
@@ -236,9 +236,9 @@ State InitData(int N_c, int N_R) {
 
   //Collect addresses.
   for (int i = 0; i < N_c; i++)
-    candidates[i] = CandAddressesPool + i * Stride;
+    candidates[i] = &((char *)CandAddressesPool)[i * Stride];
   for (int i = 0; i < N_R; i++)
-    Representatives[i] = RepAddressesPool + i * Stride;
+    Representatives[i] = &((char *)RepAddressesPool)[i * Stride];
 
   //Cyclic lists.
   for (int i = 0; i < N_c; i++) {
@@ -287,7 +287,7 @@ int checkEviction(void *head, void *x, void *pp) { //PP-> if checkResult pp=x, i
   for (int i = 0; i < 3; i++) {
     p = head;
     do {
-      gaurd();
+      guard();
       p = LNEXT(p);
     } while (p != (void *)pp);
   }
@@ -300,7 +300,7 @@ int checkEviction(void *head, void *x, void *pp) { //PP-> if checkResult pp=x, i
   }
 }
 
-void printMapping() {
+void printMapping(void) {
   for (int set = 0; set < MappingIdx; set++) {
     printf("Eviction set %d:\n", set);
     for (int i = 0; i < EvictionSetSize[set]; i++)
@@ -309,7 +309,7 @@ void printMapping() {
   }
 }
 
-void *getMappingHead() {
+void *getMappingHead(void) {
   if (MappingIdx == 0)
     return NULL;
   void **EvictionSets = (void **)malloc(MappingIdx * W * sizeof(void *));
@@ -342,7 +342,7 @@ Probe_Args remove_congrunt_addresses(void *head, int size) {
   return probe_args;
 }
 
-State prepareForMapping() {
+State prepareForMapping(void) {
   State addresses;
   srand(time(NULL));
   float p = 1 / (float)S;

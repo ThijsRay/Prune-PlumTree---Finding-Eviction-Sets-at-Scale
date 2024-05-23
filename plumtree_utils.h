@@ -17,7 +17,7 @@ unsigned long long my_rand(unsigned long long limit);
 double nCr(int n, int r);
 float binomialProbability(int n, int k, float p);
 float probabilityToBeEvictionSet(float p, int N);
-void gaurd(void);
+void guard(void);
 void flush(void *head);
 void collectReps(void *head);
 void collectCands(void *head);
@@ -64,16 +64,16 @@ static inline uint32_t memaccesstime(void *v) {
 
 static inline void clflush(void *v) { __asm__ volatile("clflush 0(%0)" : : "r"(v) :); }
 
-static inline uint32_t rdtscp() {
+static inline uint32_t rdtscp(void) {
   uint32_t rv;
   __asm__ volatile("rdtscp" : "=a"(rv)::"edx", "ecx");
   return rv;
 }
 
-static inline uint64_t rdtscp64() {
+static inline uint64_t rdtscp64(void) {
   uint32_t low, high;
   __asm__ volatile("rdtscp" : "=a"(low), "=d"(high)::"ecx");
   return (((uint64_t)high) << 32) | low;
 }
 
-static inline void mfence() { __asm__ volatile("mfence"); }
+static inline void mfence(void) { __asm__ volatile("mfence"); }
