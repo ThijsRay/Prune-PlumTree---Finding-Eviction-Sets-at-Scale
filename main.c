@@ -1,3 +1,6 @@
 #include "plumtree.h"
 
-int main() { return plumtree_main(); }
+int main() {
+  plumtree_main(0);
+  return 0;
+}

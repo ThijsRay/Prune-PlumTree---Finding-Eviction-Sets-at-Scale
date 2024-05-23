@@ -381,17 +381,18 @@ State map_LLC(float LLC_Cover, State addresses) {
   return addresses;
 }
 
-void menu(void) {
-  int option;
-  printf("===========================================================================\n");
-  printf("Choose one of the following options:\n");
-  printf("1. Map the whole LLC sets !independently!\n");
-  printf("2. Map the whole LLC !page heads! sets\n");
-  printf("===========================================================================\n");
+void plumtree_menu(int option) {
+  if (option == 0) {
+    printf("===========================================================================\n");
+    printf("Choose one of the following options:\n");
+    printf("1. Map the whole LLC sets !independently!\n");
+    printf("2. Map the whole LLC !page heads! sets\n");
+    printf("===========================================================================\n");
 
-  if (scanf("%d", &option) != 1) {
-    printf("Failed to read integer.\n");
-    exit(0);
+    if (scanf("%d", &option) != 1) {
+      printf("Failed to read integer.\n");
+      exit(0);
+    }
   }
 
   switch (option) {
@@ -408,13 +409,14 @@ void menu(void) {
   }
 }
 
-int plumtree_main(void) {
+char *plumtree_main(int option) {
+  char *ret;
   State addresses, tmp;
   int NumExp = 1, AVGmappingSize = 0, WarmUp = 1;
   float LLC_Cover = 99;
   double AVGtime = 0;
   set_cpu();
-  menu();
+  plumtree_menu(option);
   for (int i = 0; i < NumExp + WarmUp; i++) {
     printf("\n\n========== Experiment - %d ===============\n", i);
     timeIDX = 0;
@@ -438,15 +440,16 @@ int plumtree_main(void) {
            (double)start_time / CLOCKS_PER_SEC);
 
     if (i == NumExp + WarmUp - 1) {
-      printMapping();
-      return 0;
+      ret = printMapping();
+      plumtree_free(tmp);
+      return ret;
     } else {
       plumtree_free(tmp);
     }
   }
 
   statistics(NumExp, AVGmappingSize, AVGtime);
-  return 0;
+  return ret;
 }
 
 void plumtree_free(State tmp) {

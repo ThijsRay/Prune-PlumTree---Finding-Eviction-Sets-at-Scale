@@ -31,7 +31,7 @@ int CheckResult(void);
 State InitData(int N_c, int N_R);
 void collectEvictionSet(State addresses);
 int checkEviction(void *head, void *x, void *pp);
-void printMapping(void);
+char *printMapping(void);
 Probe_Args remove_congrunt_addresses(void *head, int size);
 void *getMappingHead(void);
 State prepareForMapping(void);

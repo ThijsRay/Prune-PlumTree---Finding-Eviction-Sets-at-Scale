@@ -310,13 +310,25 @@ int checkEviction(void *head, void *x, void *pp) { //PP-> if checkResult pp=x, i
   }
 }
 
-void printMapping(void) {
+char *printMapping(void) {
+  char *buf;
+  size_t size;
+  FILE *f = open_memstream(&buf, &size);
+
   for (int set = 0; set < MappingIdx; set++) {
-    printf("Eviction set %d:\n", set);
-    for (int i = 0; i < EvictionSetSize[set]; i++)
-      printf("%d) Add: %p  set: %ld\n", i, Mapping[set][i],
-             (intptr_t)LNEXT(OFFSET(Mapping[set][i], 3 * sizeof(void *))));
+    char *str;
+    asprintf(&str, "Eviction set %d:\n", set);
+    fputs(str, f);
+    free(str);
+    for (int i = 0; i < EvictionSetSize[set]; i++) {
+      asprintf(&str, "%d) Add: %p  set: %ld\n", i, Mapping[set][i],
+               (intptr_t)LNEXT(OFFSET(Mapping[set][i], 3 * sizeof(void *))));
+      fputs(str, f);
+      free(str);
+    }
   }
+  fclose(f);
+  return buf;
 }
 
 void *getMappingHead(void) {

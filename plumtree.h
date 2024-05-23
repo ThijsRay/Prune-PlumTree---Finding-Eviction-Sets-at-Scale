@@ -35,6 +35,11 @@ typedef struct my_list {
   int N_Sec;
 } State;
 
+struct PlumtreeReturn {
+  char *sets;
+  State *to_be_freed;
+};
+
 //======================Prototypes definitions===========================
 void Prime(void *address, int direction);
 State Probe(State addresses);
@@ -42,11 +47,11 @@ State map_LLC(float LLC_Cover, State addresses);
 void ProbeInfo(void *head, void *Rhead, void *tail, void *Rtail, char *MissHit, int size);
 State Prune(State addresses);
 void PruneInfo(void *head, void *tail, char *MissHit, int NumExp, int size, void *mapping_head);
-void menu(void);
+void plumtree_menu(int option);
 int reduction_iterative(State addresses);
 Probe_Args probe(void *p, int N_c, char *MissHit);
 void External_Voting(void *p, char *MissHit, int direction, int size);
 State BuildTrees(State addresses);
-int plumtree_main(void);
+char *plumtree_main(int option);
 void plumtree_free(State tmp);
 //==========================================================================
