@@ -5,8 +5,8 @@
 
 //Sysyem params
 #define W 16         //Modify according to your machine
-#define SetsLLC 8192 //Modify according to your machine
-#define THRESHOLD 95 //Modify according to your machine
+#define SetsLLC 4096 //Modify according to your machine
+#define THRESHOLD 99 //Modify according to your machine
 #define BlockSize 64
 #define PageSize 4096
 

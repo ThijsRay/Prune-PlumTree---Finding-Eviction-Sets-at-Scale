@@ -33,6 +33,9 @@ Probe_Args probe(void *p, int N_c, char *MissHit) {
   int cnt = N_c, removed = 0, i = 0;
   void *head = p;
   void **removed_addresses = (void **)malloc(N_c * sizeof(void *));
+  if (removed_addresses == NULL) {
+    err(EXIT_FAILURE, "Failed to allocate removed_addresses buffer");
+  }
   do {
     if (MissHit[i++] != 0) {
       removed_addresses[removed] = p;
@@ -111,6 +114,9 @@ State Probe(State addresses) {
   Probe_Args probe_args;
   void *head, *Rhead, *tail, *Rtail;
   char *MissHit = (char *)calloc(addresses.N_c, sizeof(char));
+  if (MissHit == NULL) {
+    err(EXIT_FAILURE, "Failed to allocate MissHit in Probe");
+  }
 
   Rhead = addresses.Representatives;
   head = addresses.candidates;
@@ -277,13 +283,21 @@ State Prune(State addresses) {
   char *MissHit2;
   int NumExp = 4;
   printf("PRUNE started with %d addresses\n", addresses.N_c);
-
   PruneGarbageSize = 0;
   PruneGarbage = NULL;
 
   for (int i = 0; i < 2; i++) {
+    if (addresses.N_c <= W) {
+      continue;
+    }
     MissHit1 = (char *)calloc(addresses.N_c, sizeof(char));
+    if (MissHit1 == NULL) {
+      err(EXIT_FAILURE, "Failed to allocate MissHit1");
+    }
     MissHit2 = (char *)calloc(addresses.N_c, sizeof(char));
+    if (MissHit2 == NULL) {
+      err(EXIT_FAILURE, "Failed to allocate MissHit2");
+    }
     head = addresses.candidates;
     tail = LNEXT(NEXTPTR(head));
     PruneInfo(head, tail, MissHit1, NumExp, addresses.N_c, NULL);

@@ -1,5 +1,6 @@
 #define _GNU_SOURCE
 
+#include <err.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -230,7 +231,13 @@ State InitData(int N_c, int N_R) {
   //Init data structure
   State addresses;
   void **candidates = (void **)malloc(N_c * sizeof(void *));
+  if (candidates == NULL) {
+    err(EXIT_FAILURE, "Failed to allocate candiates");
+  }
   void **Representatives = (void **)malloc(N_R * sizeof(void *));
+  if (Representatives == NULL) {
+    err(EXIT_FAILURE, "Failed to allocate candiates");
+  }
   addresses.N_c = N_c;
   addresses.N_R = N_R;
 
@@ -262,6 +269,9 @@ State InitData(int N_c, int N_R) {
 void collectEvictionSet(State addresses) {
   void *p;
   Mapping[MappingIdx] = (void **)malloc((addresses.N_c + addresses.N_R) * sizeof(void *));
+  if (Mapping[MappingIdx] == NULL) {
+    err(EXIT_FAILURE, "Failed to allocate Mapping[MappingIdx]");
+  }
   EvictionSetSize[MappingIdx] = addresses.N_c + addresses.N_R;
   p = addresses.candidates;
   for (int i = 0; i < addresses.N_c; i++) {
@@ -313,6 +323,9 @@ void *getMappingHead(void) {
   if (MappingIdx == 0)
     return NULL;
   void **EvictionSets = (void **)malloc(MappingIdx * W * sizeof(void *));
+  if (EvictionSets == NULL) {
+    err(EXIT_FAILURE, "Failed to allocate EvictionSets");
+  }
   void *tmp;
   for (int set = 0; set < MappingIdx; set++)
     for (int line = 0; line < W; line++)
@@ -332,6 +345,9 @@ Probe_Args remove_congrunt_addresses(void *head, int size) {
   Probe_Args probe_args;
   void *tail, *MappingHead = getMappingHead();
   char *MissHit = (char *)calloc(size, sizeof(char));
+  if (MissHit == NULL) {
+    err(EXIT_FAILURE, "Failed to allocate MissHit");
+  }
   int NumExp = 4;
 
   tail = LNEXT(NEXTPTR(head));
@@ -355,18 +371,36 @@ State prepareForMapping(void) {
   printf("The size of the Representatives set is: %.5f  times the number of sets (S)\n", N_R / (float)S);
 
   Mapping = (void ***)malloc(S * sizeof(void **));
+  if (Mapping == NULL) {
+    err(EXIT_FAILURE, "Failed to allocate Mapping");
+  }
   EvictionSetSize = (int *)malloc(S * sizeof(int));
+  if (EvictionSetSize == NULL) {
+    err(EXIT_FAILURE, "Failed to allocate EvictionSetSize");
+  }
   MappingIdx = 0;
 
   //Collect pool of addresses
   CandAddressesPool = mmap(NULL, N_c * Stride, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, 0,
                            0); //Maybe use (void*)(intptr_t)rand() instead of NULL
+  if (CandAddressesPool == MAP_FAILED) {
+    err(EXIT_FAILURE, "Failed to mmap CandAddressesPool");
+  }
   RepAddressesPool = mmap(NULL, N_R * Stride, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, 0,
                           0); //Maybe use (void*)(intptr_t)rand() instead of NULL
+  if (RepAddressesPool == MAP_FAILED) {
+    err(EXIT_FAILURE, "Failed to mmap RepAddressesPool");
+  }
   addresses = InitData(N_c, N_R);
 
   GarbageCands = (void **)malloc(addresses.N_c * sizeof(void *));
+  if (GarbageCands == NULL) {
+    err(EXIT_FAILURE, "Failed to allocate GarbageCands");
+  }
   GarbageReps = (void **)malloc(addresses.N_R * sizeof(void *));
+  if (GarbageReps == NULL) {
+    err(EXIT_FAILURE, "Failed to allocate GarbageReps");
+  }
 
   return addresses;
 }
