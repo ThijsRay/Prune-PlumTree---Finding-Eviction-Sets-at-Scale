@@ -409,8 +409,8 @@ void plumtree_menu(int option) {
   }
 }
 
-char *plumtree_main(int option) {
-  char *ret;
+struct PlumtreeReturn plumtree_main(int option) {
+  struct PlumtreeReturn ret = {0};
   State addresses, tmp;
   int NumExp = 1, AVGmappingSize = 0, WarmUp = 1;
   float LLC_Cover = 99;
@@ -440,8 +440,8 @@ char *plumtree_main(int option) {
            (double)start_time / CLOCKS_PER_SEC);
 
     if (i == NumExp + WarmUp - 1) {
-      ret = printMapping();
-      plumtree_free(tmp);
+      ret.sets = printMapping();
+      ret.to_be_freed = &tmp;
       return ret;
     } else {
       plumtree_free(tmp);
